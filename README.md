@@ -1,5 +1,7 @@
 Backend for Crypto-Analyzer-For-Scrooge project/repository (GitHub: KoskinenTimo/Crypto-Analyzer-For-Scrooge)
 
+!!NOT WORKING YET!!
+
 Setup environment variables if you want to run this<br>
 MONGODB_URI<br>
 TEST_MONGODB_URI<br>
