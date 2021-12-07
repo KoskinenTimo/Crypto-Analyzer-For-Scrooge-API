@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - AUTH=yes
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=database
+    volumes: 
+      - ~/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ~/db:/data/db
+  server:
+    image: crypto-backend-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 3001:3001
+    environment:
+      - DEV_MONGODB_URI=mongodb://admin:password@mongo:27017/database?authSource=admin
+      - NODE_ENV=development
+      - PORT=3001
+    container_name: crypto-backend-dev
+  debug-helper:
+    image: busybox
