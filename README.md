@@ -12,6 +12,7 @@ MONGODB_URI<br>
 TEST_MONGODB_URI<br>
 DEV_MONGODB_URI<br>
 PORT(3001 is default)<br>
+SECRET(for token)
 
 Possible errors:<br>
 If you start on windows, cross-env won't work and you need to install cross-env globally(or just use the containers mentioned above), see below<br>

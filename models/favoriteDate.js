@@ -9,6 +9,12 @@ favoriteDateSchema = mongoose.Schema({
     type: Number,
     required: [ true, "toDate is required"]
   },
+  profit: {
+    type: Number
+  },
+  volume: {
+    type: Number
+  },
   note: {
     type: String,
     minLength: [ 2, "Min length for note is 2 characters"],

@@ -10,9 +10,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=database
-    volumes: 
-      - ~/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-      - ~/db:/data/db
+    volumes:
+      - mongodata:/data/db
   server:
     image: crypto-backend-dev
     build:
@@ -26,6 +25,10 @@ services:
       - DEV_MONGODB_URI=mongodb://admin:password@mongo:27017/database?authSource=admin
       - NODE_ENV=development
       - PORT=3001
+      - SECRET=secret
     container_name: crypto-backend-dev
   debug-helper:
     image: busybox
+
+volumes:
+  mongodata:

@@ -1,9 +1,10 @@
 const healthCheckRouter = require('express').Router()
 
+
 /**
  * Simple healthcheck for the API
  */
-healthCheckRouter.get('/', (req,res) => {    
+healthCheckRouter.get('/', (req,res) => { 
   res.status(200).end()
 })
 

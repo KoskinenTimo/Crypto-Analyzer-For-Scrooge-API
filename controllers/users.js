@@ -4,6 +4,7 @@ const { createError } = require('../utils/helperFunctions')
 const User = require('../models/user')
 const bcryptjs = require('bcryptjs')
 
+
 /**
  * GET all user from DB
  */
