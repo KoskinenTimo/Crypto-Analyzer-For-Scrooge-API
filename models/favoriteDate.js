@@ -46,6 +46,9 @@ favoriteDateSchema.pre('validate', function(next) {
   if (this.fromDate < new Date(0)) {
     next(createError(400,"From Date must be greater than 1970-01-01"))
   }
+  if (this.fromDate > new Date() || this.toDate > new Date()) {
+    next(createError(400,"Dates cannot be in the future from current day"))
+  }
   next()
 })
 
