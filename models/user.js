@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
     minLength: [2, "Name must be atleast 2 characters long"],
     maxLength: [20, "Name can be max 20 characters long"]
   },
-  favoriteDates: [
+  favoriteDate: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'favoriteDate'
@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
   ]
 })
 
-userSchema.plugin(uniqueValidator, { message:"Username already exists"})
+userSchema.plugin(uniqueValidator, { message:"Username already exists" })
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {

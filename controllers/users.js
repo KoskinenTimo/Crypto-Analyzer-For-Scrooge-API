@@ -33,7 +33,7 @@ usersRouter.post('/', asyncHandler(async(req,res) => {
     name
   })
   const savedUsed = await user.save()
-  res.json(savedUsed)
+  res.status(201).json(savedUsed)
 }))
 
 module.exports = usersRouter

@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { createError } = require('./helperFunctions');
 
+/**
+ * Basic logging for all the incoming requests, self explanatory details below.
+ */
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
   console.log('Path:  ', request.path);
@@ -9,6 +12,11 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
+/**
+ * Wraps the callback function in try catch blocks. This middleware can be
+ * injected directly to routes where they are needed.
+ * @param {function} callback
+ */
 const asyncHandler = (callback) => {
   return async(req,res,next) => {
     try {
@@ -19,6 +27,12 @@ const asyncHandler = (callback) => {
   }
 }
 
+/**
+ * Authenticates the user with credentials provided in Auth header. If
+ * it is succesful, creates currentUser property with username and id properties
+ * inside in req object and in the case of unsuccesful auth attempt, 
+ * uses next to send error to be handled.
+ */
 const authenticate = async(req,res,next) => {
   const bearerToken = req.get('Authorization')
   if (bearerToken && bearerToken.toLowerCase().startsWith('bearer ')) {
