@@ -7,7 +7,7 @@ const { createError } = require('../utils/helperFunctions')
 
 
 /**
- * Login with credentials to get a jsonwebtoken back with user details.
+ * Login with credentials to get auth token back with user details.
  * Token expires after one hour and bad logins are dealt with errors.
  */
 loginRouter.post('/', asyncHandler(async(req,res,next) => {
@@ -33,8 +33,7 @@ loginRouter.post('/', asyncHandler(async(req,res,next) => {
       expiresIn: "1h"
     }
   )
-  res.cookie('token', token, { maxAge:1*60*60*1000, httpOnly:true })
-  res.status(200).send({ username:foundUser.username, id:foundUser.id })
+  res.status(200).send({ token, username:foundUser.username, id:foundUser.id })
 }))
 
 /**
