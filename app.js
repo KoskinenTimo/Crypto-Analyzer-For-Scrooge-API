@@ -15,7 +15,6 @@ const healthCheckRouter = require('./controllers/healthcheck')
 const loginRouter = require('./controllers/login')
 const favoriteDatesRouter = require('./controllers/favoriteDates')
 
-
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
 
 
