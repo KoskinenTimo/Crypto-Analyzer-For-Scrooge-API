@@ -28,23 +28,22 @@ const asyncHandler = (callback) => {
 }
 
 /**
- * Authenticates the user with credentials provided in Auth header. If
+ * Authenticates the user with credentials provided in auth cookie. If
  * it is succesful, creates currentUser property with username and id properties
  * inside in req object and in the case of unsuccesful auth attempt, 
  * uses next to send error to be handled.
  */
 const authenticate = async(req,res,next) => {
-  const bearerToken = req.get('Authorization')
-  if (bearerToken && bearerToken.toLowerCase().startsWith('bearer ')) {
+  const { token } = req.cookies
+  if (token) {
     try {
-      const token = bearerToken.substring(7)
       const authenticatedUser = jwt.verify(token,process.env.SECRET)
       req.currentUser = authenticatedUser
     } catch (error) {
       next(createError(401,"Access denied, bad credentials"))
     }
   } else {
-    next(createError(401,"Authorization token missing or invalid"))
+    next(createError(401,"Authorization cookie missing or invalid"))
   }
   next()
 }

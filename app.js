@@ -4,9 +4,12 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const middleware = require('./utils/middleware')
 const app = express()
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 
 const { createError } = require('./utils/helperFunctions')
 
+// routers
 const usersRouter = require('./controllers/users')
 const healthCheckRouter = require('./controllers/healthcheck')
 const loginRouter = require('./controllers/login')
@@ -17,12 +20,15 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
 
 
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended:true }))
 app.use(express.json())
+app.use(cookieParser())
+
 
 // logger for all requests
 app.use(middleware.requestLogger)
 
-// routers
+// routes
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/favoritedates', favoriteDatesRouter)

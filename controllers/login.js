@@ -2,7 +2,7 @@ const loginRouter = require('express').Router()
 const bcryptjs = require('bcryptjs')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
-const { asyncHandler } = require('../utils/middleware')
+const { asyncHandler, authenticate } = require('../utils/middleware')
 const { createError } = require('../utils/helperFunctions')
 
 
@@ -33,7 +33,15 @@ loginRouter.post('/', asyncHandler(async(req,res,next) => {
       expiresIn: "1h"
     }
   )
-  res.status(200).send({ token, username:foundUser.username, id:foundUser.id })
+  res.cookie('token', token, { maxAge:1*60*60*1000, httpOnly:true })
+  res.status(200).send({ username:foundUser.username, id:foundUser.id })
+}))
+
+/**
+ * Check login token to access private routes on client side
+ */
+loginRouter.get('/', authenticate,asyncHandler((req,res,next) => {
+  res.status(200).end()
 }))
 
 module.exports = loginRouter

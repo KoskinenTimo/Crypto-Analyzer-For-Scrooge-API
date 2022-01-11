@@ -29,6 +29,7 @@ const favoriteDateSchema = mongoose.Schema({
   }
 })
 
+
 favoriteDateSchema.pre('validate', function(next) {
   if (Boolean(Number(this.fromDate)) && Boolean(Number(this.toDate))) {
     this.fromDate = this.fromDate*1000
@@ -36,10 +37,6 @@ favoriteDateSchema.pre('validate', function(next) {
   } else {
     next(createError(400,"Dates must be UNIX timestamps"))
   }
-  next()
-})
-
-favoriteDateSchema.pre('validate', function(next) {
   if (this.fromDate > this.toDate) {    
     next(createError(400,"To Date must be greater than From Date"))
   }
