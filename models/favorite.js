@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const { coins } = require('../utils/constants');
 const { createError } = require('../utils/helperFunctions');
 
 
-const favoriteDateSchema = mongoose.Schema({
+const favoriteSchema = mongoose.Schema({
   fromDate: {
     type: Date,
     required: [ true, "fromDate is required"]
@@ -10,6 +11,14 @@ const favoriteDateSchema = mongoose.Schema({
   toDate: {
     type: Date,
     required: [ true, "toDate is required"]
+  },
+  coin: {
+    type: String,
+    required: [ true, "Crypto coin is required"]
+  },
+  currency: {
+    type: String,
+    required: [ true, "Currency is required"]
   },
   profit: {
     type: Number,
@@ -30,7 +39,7 @@ const favoriteDateSchema = mongoose.Schema({
 })
 
 
-favoriteDateSchema.pre('validate', function(next) {
+favoriteSchema.pre('validate', function(next) {
   if (Boolean(Number(this.fromDate)) && Boolean(Number(this.toDate))) {
     this.fromDate = this.fromDate*1000
     this.toDate = this.toDate*1000
@@ -46,12 +55,19 @@ favoriteDateSchema.pre('validate', function(next) {
   if (this.fromDate > new Date() || this.toDate > new Date()) {
     next(createError(400,"Dates cannot be in the future from current day"))
   }
+  if (!['eur','usd','gbp'].includes(this.currency)) {
+    next(createError(400,"Currency must be 'eur', 'usd' or 'gbp'"))
+  }
+  const coinIds = coins.map(coin => coin.id)
+  if (!coinIds.includes(this.coin)) {
+    next(createError(400,`Coin must be on of the following ${coinIds}`))
+  }
   next()
 })
 
 
 
-favoriteDateSchema.set('toJSON', {
+favoriteSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -59,6 +75,6 @@ favoriteDateSchema.set('toJSON', {
   }
 });
 
-const FavoriteDate = mongoose.model("FavoriteDate", favoriteDateSchema);
+const Favorite = mongoose.model("Favorite", favoriteSchema);
 
-module.exports = FavoriteDate
+module.exports = Favorite

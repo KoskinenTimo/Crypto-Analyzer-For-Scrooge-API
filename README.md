@@ -2,7 +2,7 @@ Backend for Crypto-Analyzer-For-Scrooge project/repository (GitHub: KoskinenTimo
 
 Only development environment built at the moment, which is ment to be used locally.<br>
 This backend is primarily built to run inside a container. If you have docker installed you can: <br>
-npm install
+npm install <br>
 docker-compose -f docker-compose.dev.yml up
 
 This will start a development version, containers for server and mongodb testing/development database. But if you want to run without docker see below.

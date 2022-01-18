@@ -9,7 +9,9 @@ const bcryptjs = require('bcryptjs')
  * GET all user from DB
  */
 usersRouter.get('/', asyncHandler(async(req,res) => {
-  const users = await User.find({})
+  const users = await User
+    .find({})
+    .populate('favorites', { fromDate:1, toDate:1, coin:1, currency:1 })
   if (users && users.length) {
     const jsonUsers = users.map(user => user.toJSON())
     return res.json(jsonUsers)

@@ -13,7 +13,7 @@ const { createError } = require('./utils/helperFunctions')
 const usersRouter = require('./controllers/users')
 const healthCheckRouter = require('./controllers/healthcheck')
 const loginRouter = require('./controllers/login')
-const favoriteDatesRouter = require('./controllers/favoriteDates')
+const favoritesRouter = require('./controllers/favorites')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
 
@@ -30,7 +30,7 @@ app.use(middleware.requestLogger)
 // routes
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/favoritedates', favoriteDatesRouter)
+app.use('/api/favorites', favoritesRouter)
 app.use('/healthcheck', healthCheckRouter)
 
 

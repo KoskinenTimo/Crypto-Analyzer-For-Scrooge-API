@@ -16,10 +16,10 @@ const userSchema = mongoose.Schema({
     minLength: [2, "Name must be atleast 2 characters long"],
     maxLength: [20, "Name can be max 20 characters long"]
   },
-  favoriteDate: [
+  favorites: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'favoriteDate'
+      ref: 'Favorite'
     }
   ]
 })
