@@ -1,5 +1,5 @@
 const usersRouter = require('express').Router()
-const { asyncHandler } = require('../utils/middleware')
+const { asyncHandler, authenticate } = require('../utils/middleware')
 const { createError } = require('../utils/helperFunctions')
 const User = require('../models/user')
 const bcryptjs = require('bcryptjs')
@@ -36,6 +36,25 @@ usersRouter.post('/', asyncHandler(async(req,res) => {
   })
   const savedUsed = await user.save()
   res.status(201).json(savedUsed)
+}))
+
+/**
+ * GET one user from DB
+ */
+usersRouter.get('/:id', authenticate,asyncHandler(async(req,res) => {
+  const { currentUser } = req
+  const userWithDetails = await User.findById(currentUser.id)
+    .populate('favorites', 
+      {
+        fromDate:1,
+        toDate:1,
+        coin:1,
+        currency:1,
+        profit:1,
+        volume:1, 
+        note:1
+      })
+  res.status(200).json(userWithDetails)
 }))
 
 module.exports = usersRouter

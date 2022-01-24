@@ -10,7 +10,9 @@ const User = require('../models/user')
  * GET all favorite dates from DB
  */
 favoritesRouter.get('/', asyncHandler(async(req,res) => {
-  const favDates = await Favorite.find({})
+  const favDates = await Favorite
+    .find({})
+    .populate('user', { username:1, name:1 })
   if (favDates && favDates.length) {
     const jsonFavDates = favDates.map(date => date.toJSON())
     return res.json(jsonFavDates)
@@ -37,7 +39,7 @@ favoritesRouter.post('/', authenticate,asyncHandler(async(req,res) => {
   if (savedFavoriteDate) {
     const foundUser = await User.findById(req.currentUser.id)
     foundUser.favorites.push(savedFavoriteDate.id)
-    await foundUser.save()
+    await User.findByIdAndUpdate(req.currentUser.id,{ favorites:foundUser.favorites })
     return res.status(201).json(savedFavoriteDate)
   }
   throw createError(500,"Something went wrong when saving to database")

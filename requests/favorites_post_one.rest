@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/favorites
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWQiOiI2MWRkNGZhZTk5MDcxNTA2NzI0NjIyZjgiLCJpYXQiOjE2NDMwNTM0NzMsImV4cCI6MTY0MzA1NzA3M30.qM6kZL8fLl2iIC7sy5JDd8RkY09Prke2ydc9_s8XHRs
+
+{
+    "fromDate": 342748800,
+    "toDate": 1608944400,
+    "coin": "usd-coin",
+    "currency": "gbp"
+}
