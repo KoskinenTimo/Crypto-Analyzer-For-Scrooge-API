@@ -43,18 +43,22 @@ usersRouter.post('/', asyncHandler(async(req,res) => {
  */
 usersRouter.get('/:id', authenticate,asyncHandler(async(req,res) => {
   const { currentUser } = req
-  const userWithDetails = await User.findById(currentUser.id)
-    .populate('favorites', 
-      {
-        fromDate:1,
-        toDate:1,
-        coin:1,
-        currency:1,
-        profit:1,
-        volume:1, 
-        note:1
-      })
-  res.status(200).json(userWithDetails)
+  if (req.params.id === req.currentUser.id) {
+    const userWithDetails = await User.findById(currentUser.id)
+      .populate('favorites', 
+        {
+          fromDate:1,
+          toDate:1,
+          coin:1,
+          currency:1,
+          profit:1,
+          volume:1, 
+          note:1
+        })
+    return res.status(200).json(userWithDetails)
+  }
+  next(createError(401, "Access denied, not the owner of these records"))
 }))
+
 
 module.exports = usersRouter
