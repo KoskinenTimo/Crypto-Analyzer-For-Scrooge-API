@@ -2,8 +2,9 @@ const favoritesRouter = require('express').Router()
 const { authenticate, asyncHandler } = require('../utils/middleware')
 const Favorite = require('../models/favorite')
 const { createError } = require('../utils/helperFunctions')
-const { findOne, findById } = require('../models/favorite')
+const { findOne, findById, findByIdAndUpdate } = require('../models/favorite')
 const User = require('../models/user')
+const { json } = require('body-parser')
 
 
 /**
@@ -62,11 +63,24 @@ favoritesRouter.get('/:id', asyncHandler(async(req,res) => {
  * UPDATE one favorite date in DB (NOT READY)
  */
 favoritesRouter.put('/:id', authenticate,asyncHandler(async(req,res) => {
-  res.status(201).end()
+  const { id } = req.params
+  const { currentUser, body } = req
+  const favDate = await Favorite.findById(id)
+  if (favDate) {
+    if (currentUser.id === favDate.user.toString()) {
+      const updatedFav = await Favorite.findByIdAndUpdate(id, body, { runValidators:true, new:true })
+      if (updatedFav) {
+        return res.status(200).json(updatedFav)
+      }
+      throw createError(404, "Nothing found with the id")
+    }
+    throw createError(401, "Not the owner of this recourse, access denied")
+  }
+  throw createError(404, "Nothing found with the id")
 }))
 
 /**
- * DELETE UPDATE one favorite date in DB
+ * DELETE one favorite date in DB
  */
 favoritesRouter.delete('/:id', authenticate,asyncHandler(async(req,res) => {
   const { id } = req.params

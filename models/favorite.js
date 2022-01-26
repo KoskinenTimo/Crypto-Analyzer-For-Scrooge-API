@@ -28,7 +28,6 @@ const favoriteSchema = mongoose.Schema({
   },
   note: {
     type: String,
-    minLength: [ 2, "Min length for note is 2 characters"],
     maxLength: [ 200, "Max length for note is 200 characters"]
   },
   user: {
