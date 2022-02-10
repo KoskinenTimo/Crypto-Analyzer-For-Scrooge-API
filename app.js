@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const middleware = require('./utils/middleware')
 const app = express()
-const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
 const { createError } = require('./utils/helperFunctions')
@@ -21,7 +20,6 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended:true }))
 app.use(express.json())
-app.use(cookieParser())
 
 
 // logger for all requests
